@@ -1,17 +1,12 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('layouts.paperlane')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
-        </div>
+@section('title', 'Dashboard - Paperlane')
+
+@section('content')
+    <div class="max-w-3xl mx-auto px-4 py-16">
+        <h1 class="text-3xl font-bold mb-4">Dashboard</h1>
+        <p class="text-gray-600">
+            Selamat datang di dashboard Paperlane, <strong>{{ auth()->user()->name }}</strong>!
+        </p>
     </div>
-</x-app-layout>
+@endsection
