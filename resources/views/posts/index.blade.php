@@ -19,9 +19,20 @@
 
         <div class="space-y-4">
             @forelse($posts as $post)
-                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                    <h2 class="text-lg font-semibold">{{ $post->title }}</h2>
-                    <p class="text-sm text-gray-500">Status: {{ $post->status }}</p>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-lg font-semibold">{{ $post->title }}</h2>
+                        <p class="text-sm text-gray-500">Status: {{ $post->status }}</p>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <a href="{{ route('posts.edit', $post) }}" class="text-sm text-blue-600 hover:text-blue-800">Edit</a>
+                        
+                        <form action="{{ route('posts.destroy', $post) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus post ini?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-sm text-red-600 hover:text-red-800">Hapus</button>
+                        </form>
+                    </div>
                 </div>
             @empty
                 <p class="text-gray-500">Belum ada post. Ayo buat post pertama kamu!</p>

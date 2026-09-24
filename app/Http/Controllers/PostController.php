@@ -35,9 +35,52 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('success', 'Post berhasil dibuat!');
     }
 
-    // Method lain (show, edit, update, destroy) biarkan dulu kosong
-    public function show(Post $post) {}
-    public function edit(Post $post) {}
-    public function update(Request $request, Post $post) {}
-    public function destroy(Post $post) {}
+    public function show(Post $post)
+    {
+        // Kita gunakan ini untuk sementara, nanti bisa dipercantik
+        return view('posts.show', compact('post'));
+    }
+
+    public function edit(Post $post)
+    {
+        // Pastikan hanya pemilik post yang bisa mengedit
+        if ($post->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        return view('posts.edit', compact('post'));
+    }
+
+    public function update(Request $request, Post $post)
+    {
+        if ($post->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'status' => 'required|in:draft,published',
+        ]);
+
+        // Update slug jika judul berubah
+        if ($post->title !== $validated['title']) {
+            $validated['slug'] = Str::slug($validated['title']) . '-' . Str::random(5);
+        }
+
+        $post->update($validated);
+
+        return redirect()->route('posts.index')->with('success', 'Post berhasil diperbarui!');
+    }
+
+    public function destroy(Post $post)
+    {
+        if ($post->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $post->delete();
+
+        return redirect()->route('posts.index')->with('success', 'Post berhasil dihapus!');
+    }
 }
