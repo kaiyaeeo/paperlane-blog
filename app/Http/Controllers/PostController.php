@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Models\Category;
+use App\Models\Tag;
 
 class PostController extends Controller
 {
@@ -16,7 +18,9 @@ class PostController extends Controller
 
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('posts.create', compact('categories', 'tags'));
     }
 
     public function store(Request $request)
@@ -25,12 +29,20 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'status' => 'required|in:draft,published',
+            'category_id' => 'nullable|exists:categories,id', // Tambahkan ini
+            'tags' => 'nullable|array', // Tambahkan ini
+            'tags.*' => 'exists:tags,id', // Tambahkan ini
         ]);
 
         $validated['user_id'] = auth()->id();
         $validated['slug'] = Str::slug($request->title) . '-' . Str::random(5);
 
-        Post::create($validated);
+        $post = Post::create($validated);
+        
+        // Simpan relasi many-to-many
+        if ($request->has('tags')) {
+            $post->tags()->sync($request->tags);
+        }
 
         return redirect()->route('posts.index')->with('success', 'Post berhasil dibuat!');
     }
@@ -43,12 +55,12 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        // Pastikan hanya pemilik post yang bisa mengedit
         if ($post->user_id !== auth()->id()) {
             abort(403);
         }
-
-        return view('posts.edit', compact('post'));
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('posts.edit', compact('post', 'categories', 'tags'));
     }
 
     public function update(Request $request, Post $post)
@@ -61,14 +73,21 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'status' => 'required|in:draft,published',
+            'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
         ]);
 
-        // Update slug jika judul berubah
         if ($post->title !== $validated['title']) {
             $validated['slug'] = Str::slug($validated['title']) . '-' . Str::random(5);
         }
 
         $post->update($validated);
+        if ($request->has('tags')) {
+            $post->tags()->sync($request->tags);
+        } else {
+            $post->tags()->detach(); // Hapus semua tag jika tidak ada yang dipilih
+        }
 
         return redirect()->route('posts.index')->with('success', 'Post berhasil diperbarui!');
     }

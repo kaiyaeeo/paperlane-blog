@@ -22,7 +22,15 @@
                 <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex justify-between items-center">
                     <div>
                         <h2 class="text-lg font-semibold">{{ $post->title }}</h2>
-                        <p class="text-sm text-gray-500">Status: {{ $post->status }}</p>
+                        <p class="text-sm text-gray-500">
+                            Kategori: {{ $post->category ? $post->category->name : '-' }} | 
+                            Status: {{ $post->status }}
+                        </p>
+                        <div class="flex gap-1 mt-2">
+                            @foreach($post->tags as $tag)
+                                <span class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded-full">{{ $tag->name }}</span>
+                            @endforeach
+                        </div>
                     </div>
                     <div class="flex items-center space-x-3">
                         <a href="{{ route('posts.edit', $post) }}" class="text-sm text-blue-600 hover:text-blue-800">Edit</a>
