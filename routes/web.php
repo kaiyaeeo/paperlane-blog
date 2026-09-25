@@ -5,6 +5,8 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\LikeController;
 
 // Halaman publik
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -26,6 +28,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('comments.store');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])
         ->name('comments.destroy');
+
+    Route::post('/posts/{post}/like', [LikeController::class, 'toggle'])->name('likes.toggle');
+    Route::post('/posts/{post}/bookmark', [BookmarkController::class, 'toggle'])->name('bookmarks.toggle');
+    Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
 });
 
 require __DIR__.'/auth.php';

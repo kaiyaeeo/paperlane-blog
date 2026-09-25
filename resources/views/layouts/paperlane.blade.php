@@ -29,6 +29,9 @@
                             <a href="{{ url('/dashboard') }}" class="text-sm text-[#204654]/70 hover:text-[#204654] transition">
                                 Dashboard
                             </a>
+                            <a href="{{ route('bookmarks.index') }}" class="text-sm text-[#204654]/70 hover:text-[#204654] transition">
+                                Bookmark
+                            </a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="text-sm text-[#204654]/70 hover:text-[#204654] transition">

@@ -8,7 +8,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $latestPosts = Post::with(['user', 'category', 'tags'])
+        $latestPosts = Post::with(['user', 'category', 'tags', 'likes', 'comments'])
             ->where('status', 'published')
             ->latest()
             ->take(6)

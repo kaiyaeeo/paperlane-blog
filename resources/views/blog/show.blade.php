@@ -19,10 +19,55 @@
             <h1 class="font-serif text-3xl md:text-5xl text-[#204654] leading-[1.1] mt-3 mb-4">
                 {{ $post->title }}
             </h1>
-            <div class="flex items-center gap-2 text-xs text-[#204654]/60 mb-10">
+            <div class="flex items-center gap-2 text-xs text-[#204654]/60 mb-6">
                 <span>Oleh <strong class="text-[#204654]">{{ $post->user->name }}</strong></span>
                 <span>&middot;</span>
                 <span>{{ $post->created_at->format('d M Y') }}</span>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="flex items-center gap-4 mb-10 pb-6 border-b border-[#204654]/10">
+                @auth
+                    @php
+                        $isLiked = $post->likes->where('user_id', auth()->id())->count() > 0;
+                        $isBookmarked = $post->bookmarks->where('user_id', auth()->id())->count() > 0;
+                    @endphp
+
+                    <!-- Like Button -->
+                    <form action="{{ route('likes.toggle', $post) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="flex items-center gap-2 text-sm transition {{ $isLiked ? 'text-red-500' : 'text-[#204654]/60 hover:text-[#204654]' }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="{{ $isLiked ? 'currentColor' : 'none' }}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                            <span>{{ $post->likes->count() }}</span>
+                        </button>
+                    </form>
+
+                    <!-- Bookmark Button -->
+                    <form action="{{ route('bookmarks.toggle', $post) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="flex items-center gap-2 text-sm transition {{ $isBookmarked ? 'text-[#204654]' : 'text-[#204654]/60 hover:text-[#204654]' }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="{{ $isBookmarked ? 'currentColor' : 'none' }}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                            </svg>
+                            <span>{{ $isBookmarked ? 'Disimpan' : 'Simpan' }}</span>
+                        </button>
+                    </form>
+                @else
+                    <div class="flex items-center gap-4 text-sm text-[#204654]/60">
+                        <div class="flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                            <span>{{ $post->likes->count() }}</span>
+                        </div>
+                        <a href="{{ route('login') }}" class="underline hover:no-underline text-[#204654]">
+                            Login
+                        </a>
+                        <span>untuk like & simpan</span>
+                    </div>
+                @endauth
             </div>
 
             <!-- Konten -->

@@ -11,10 +11,9 @@ class BlogController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Post::with(['user', 'category', 'tags'])
+        $query = Post::with(['user', 'category', 'tags', 'likes', 'comments'])
             ->where('status', 'published');
 
-        // Pencarian
         if ($request->filled('q')) {
             $search = $request->q;
             $query->where(function ($q) use ($search) {
@@ -23,7 +22,7 @@ class BlogController extends Controller
             });
         }
 
-        $posts = $query->latest()->paginate(6)->withQueryString();
+        $posts = $query->latest()->paginate(9)->withQueryString();
         $categories = Category::all();
         $tags = Tag::all();
 
@@ -32,14 +31,12 @@ class BlogController extends Controller
 
     public function show(Post $post)
     {
-        // Hanya tampilkan post yang sudah published
         if ($post->status !== 'published') {
             abort(404);
         }
 
-        $post->load(['user', 'category', 'tags']);
-        
-        // Post terkait (kategori sama)
+        $post->load(['user', 'category', 'tags', 'likes', 'bookmarks', 'comments.user']);
+
         $relatedPosts = Post::where('status', 'published')
             ->where('category_id', $post->category_id)
             ->where('id', '!=', $post->id)
@@ -52,11 +49,11 @@ class BlogController extends Controller
 
     public function category(Category $category)
     {
-        $posts = Post::with(['user', 'category', 'tags'])
+        $posts = Post::with(['user', 'category', 'tags', 'likes', 'comments'])
             ->where('status', 'published')
             ->where('category_id', $category->id)
             ->latest()
-            ->paginate(6);
+            ->paginate(9);
 
         $categories = Category::all();
         $tags = Tag::all();
@@ -66,13 +63,13 @@ class BlogController extends Controller
 
     public function tag(Tag $tag)
     {
-        $posts = Post::with(['user', 'category', 'tags'])
+        $posts = Post::with(['user', 'category', 'tags', 'likes', 'comments'])
             ->where('status', 'published')
             ->whereHas('tags', function ($q) use ($tag) {
                 $q->where('tags.id', $tag->id);
             })
             ->latest()
-            ->paginate(6);
+            ->paginate(9);
 
         $categories = Category::all();
         $tags = Tag::all();
