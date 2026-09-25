@@ -4,34 +4,34 @@
 
 @section('content')
     <!-- Hero -->
-    <section class="max-w-5xl mx-auto px-6 lg:px-8 pt-24 pb-20">
+    <section class="w-full px-6 lg:px-12 pt-16 pb-12">
         <div class="max-w-3xl">
-            <p class="text-sm text-stone-500 tracking-widest uppercase mb-6">
+            <p class="text-xs text-[#204654]/60 tracking-widest uppercase mb-4">
                 Ruang menulis digital
             </p>
-            <h1 class="font-serif text-5xl md:text-7xl text-stone-900 leading-[1.05] mb-8">
+            <h1 class="font-serif text-4xl md:text-6xl text-[#204654] leading-[1.05] mb-5">
                 Tulis. Terbitkan.<br>
                 <span class="italic">Bagikan.</span>
             </h1>
-            <p class="text-lg text-stone-600 leading-relaxed mb-10 max-w-xl">
+            <p class="text-base md:text-lg text-[#204654]/75 leading-relaxed mb-8 max-w-xl">
                 Paperlane adalah tempat sederhana untuk menulis dan membaca. Tanpa gangguan, tanpa iklan, hanya kata-kata.
             </p>
 
-            <div class="flex flex-wrap items-center gap-4">
+            <div class="flex flex-wrap items-center gap-3">
                 @guest
-                    <a href="{{ route('register') }}" class="px-6 py-3 bg-stone-900 text-white rounded-full hover:bg-stone-700 transition text-sm font-medium">
+                    <a href="{{ route('register') }}" class="px-5 py-2.5 bg-[#204654] text-[#F7F9E1] rounded-full hover:bg-[#204654]/85 transition text-sm font-medium">
                         Mulai Menulis
                     </a>
-                    <a href="{{ route('blog.index') }}" class="px-6 py-3 text-stone-700 hover:text-stone-900 transition text-sm font-medium">
+                    <a href="{{ route('blog.index') }}" class="px-5 py-2.5 bg-[#CAFFA6] text-[#204654] rounded-full hover:bg-[#CAFFA6]/80 transition text-sm font-medium">
                         Baca Blog &rarr;
                     </a>
                 @endguest
 
                 @auth
-                    <a href="{{ url('/dashboard') }}" class="px-6 py-3 bg-stone-900 text-white rounded-full hover:bg-stone-700 transition text-sm font-medium">
+                    <a href="{{ url('/dashboard') }}" class="px-5 py-2.5 bg-[#204654] text-[#F7F9E1] rounded-full hover:bg-[#204654]/85 transition text-sm font-medium">
                         Ke Dashboard
                     </a>
-                    <a href="{{ route('blog.index') }}" class="px-6 py-3 text-stone-700 hover:text-stone-900 transition text-sm font-medium">
+                    <a href="{{ route('blog.index') }}" class="px-5 py-2.5 bg-[#CAFFA6] text-[#204654] rounded-full hover:bg-[#CAFFA6]/80 transition text-sm font-medium">
                         Baca Blog &rarr;
                     </a>
                 @endauth
@@ -41,38 +41,34 @@
 
     <!-- Tulisan Terbaru -->
     @if($latestPosts->count() > 0)
-        <section class="max-w-5xl mx-auto px-6 lg:px-8 py-16 border-t border-stone-200">
-            <div class="flex justify-between items-baseline mb-12">
-                <h2 class="font-serif text-3xl md:text-4xl text-stone-900">Tulisan Terbaru</h2>
-                <a href="{{ route('blog.index') }}" class="text-sm text-stone-600 hover:text-stone-900 transition">
+        <section class="w-full px-6 lg:px-12 py-12 border-t border-[#204654]/10">
+            <div class="flex justify-between items-baseline mb-8">
+                <h2 class="font-serif text-2xl md:text-3xl text-[#204654]">Tulisan Terbaru</h2>
+                <a href="{{ route('blog.index') }}" class="text-sm text-[#204654]/70 hover:text-[#204654] transition">
                     Lihat semua &rarr;
                 </a>
             </div>
 
-            <div class="space-y-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
                 @foreach($latestPosts as $post)
-                    <article class="group">
-                        <div class="grid md:grid-cols-[1fr_auto] gap-6 items-start">
-                            <div>
-                                @if($post->category)
-                                    <a href="{{ route('blog.category', $post->category) }}" class="text-xs text-stone-500 uppercase tracking-widest hover:text-stone-900 transition">
-                                        {{ $post->category->name }}
-                                    </a>
-                                @endif
-                                <h3 class="font-serif text-2xl md:text-3xl text-stone-900 mt-3 mb-3 leading-tight">
-                                    <a href="{{ route('blog.show', $post) }}" class="hover:text-stone-600 transition">
-                                        {{ $post->title }}
-                                    </a>
-                                </h3>
-                                <p class="text-stone-600 leading-relaxed mb-4 max-w-2xl">
-                                    {{ \Illuminate\Support\Str::limit(strip_tags($post->content), 160) }}
-                                </p>
-                                <div class="flex items-center gap-3 text-sm text-stone-500">
-                                    <span>{{ $post->user->name }}</span>
-                                    <span>&middot;</span>
-                                    <span>{{ $post->created_at->format('d M Y') }}</span>
-                                </div>
-                            </div>
+                    <article class="flex flex-col">
+                        @if($post->category)
+                            <a href="{{ route('blog.category', $post->category) }}" class="text-xs text-[#204654]/60 uppercase tracking-widest hover:text-[#204654] transition">
+                                {{ $post->category->name }}
+                            </a>
+                        @endif
+                        <h3 class="font-serif text-xl md:text-2xl text-[#204654] mt-2 mb-2 leading-snug">
+                            <a href="{{ route('blog.show', $post) }}" class="hover:text-[#204654]/70 transition">
+                                {{ $post->title }}
+                            </a>
+                        </h3>
+                        <p class="text-[#204654]/75 leading-relaxed mb-3 text-sm flex-1">
+                            {{ \Illuminate\Support\Str::limit(strip_tags($post->content), 120) }}
+                        </p>
+                        <div class="flex items-center gap-2 text-xs text-[#204654]/60">
+                            <span>{{ $post->user->name }}</span>
+                            <span>&middot;</span>
+                            <span>{{ $post->created_at->format('d M Y') }}</span>
                         </div>
                     </article>
                 @endforeach

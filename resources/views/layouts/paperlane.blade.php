@@ -12,34 +12,34 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-stone-50 text-stone-900">
+<body class="font-sans antialiased bg-[#F7F9E1] text-[#204654]">
     <div class="min-h-screen flex flex-col">
         <!-- Navbar -->
-        <nav class="sticky top-0 z-50 bg-stone-50/80 backdrop-blur-md border-b border-stone-200/60">
-            <div class="max-w-5xl mx-auto px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
-                    <a href="{{ route('home') }}" class="font-serif text-2xl text-stone-900 tracking-tight">
+        <nav class="sticky top-0 z-50 bg-[#F7F9E1]/90 backdrop-blur-md border-b border-[#204654]/10">
+            <div class="w-full px-6 lg:px-12">
+                <div class="flex justify-between items-center h-14">
+                    <a href="{{ route('home') }}" class="font-serif text-xl text-[#204654] tracking-tight">
                         Paperlane
                     </a>
-                    <div class="flex items-center gap-6">
-                        <a href="{{ route('blog.index') }}" class="text-sm text-stone-600 hover:text-stone-900 transition">
+                    <div class="flex items-center gap-5">
+                        <a href="{{ route('blog.index') }}" class="text-sm text-[#204654]/70 hover:text-[#204654] transition">
                             Blog
                         </a>
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="text-sm text-stone-600 hover:text-stone-900 transition">
+                            <a href="{{ url('/dashboard') }}" class="text-sm text-[#204654]/70 hover:text-[#204654] transition">
                                 Dashboard
                             </a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="text-sm text-stone-600 hover:text-stone-900 transition">
+                                <button type="submit" class="text-sm text-[#204654]/70 hover:text-[#204654] transition">
                                     Log out
                                 </button>
                             </form>
                         @else
-                            <a href="{{ route('login') }}" class="text-sm text-stone-600 hover:text-stone-900 transition">
+                            <a href="{{ route('login') }}" class="text-sm text-[#204654]/70 hover:text-[#204654] transition">
                                 Log in
                             </a>
-                            <a href="{{ route('register') }}" class="text-sm px-4 py-2 bg-stone-900 text-white rounded-full hover:bg-stone-700 transition">
+                            <a href="{{ route('register') }}" class="text-sm px-4 py-1.5 bg-[#204654] text-[#F7F9E1] rounded-full hover:bg-[#204654]/85 transition">
                                 Mulai Menulis
                             </a>
                         @endauth
@@ -54,11 +54,11 @@
         </main>
 
         <!-- Footer -->
-        <footer class="border-t border-stone-200 mt-24">
-            <div class="max-w-5xl mx-auto px-6 lg:px-8 py-12">
-                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                    <div class="font-serif text-xl text-stone-900">Paperlane</div>
-                    <div class="text-sm text-stone-500">
+        <footer class="border-t border-[#204654]/10 mt-16">
+            <div class="w-full px-6 lg:px-12 py-8">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-3">
+                    <div class="font-serif text-lg text-[#204654]">Paperlane</div>
+                    <div class="text-xs text-[#204654]/60">
                         &copy; {{ date('Y') }} Paperlane &middot; Ruang menulis digital.
                     </div>
                 </div>
