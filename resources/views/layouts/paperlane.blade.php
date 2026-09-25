@@ -26,8 +26,17 @@
                         </a>
                     </div>
                     <div class="flex items-center space-x-4">
+                        <a href="{{ route('blog.index') }}" class="text-sm text-gray-700 hover:text-gray-900">Blog</a>
+
                         @auth
                             <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 hover:text-gray-900">Dashboard</a>
+                            
+                            <form method="POST" action="{{ route('logout') }}" class="inline">
+                                @csrf
+                                <button type="submit" class="text-sm text-gray-700 hover:text-gray-900">
+                                    Log out
+                                </button>
+                            </form>
                         @else
                             <a href="{{ route('login') }}" class="text-sm text-gray-700 hover:text-gray-900">Log in</a>
                             @if (Route::has('register'))
@@ -43,6 +52,13 @@
         <main>
             @yield('content')
         </main>
+
+        <!-- Footer -->
+        <footer class="border-t border-gray-100 mt-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm text-gray-500">
+                &copy; {{ date('Y') }} Paperlane. Ruang menulis digital.
+            </div>
+        </footer>
     </div>
 </body>
 </html>

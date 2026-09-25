@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Post;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('home');
+        $latestPosts = Post::with(['user', 'category', 'tags'])
+            ->where('status', 'published')
+            ->latest()
+            ->take(6)
+            ->get();
+
+        return view('home', compact('latestPosts'));
     }
 }
