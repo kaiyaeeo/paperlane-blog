@@ -1,90 +1,105 @@
 @extends('layouts.paperlane')
 
-@section('title', 'Blog - Paperlane')
+@section('title', isset($category) ? $category->name . ' — Paperlane' : (isset($tag) ? '#' . $tag->name . ' — Paperlane' : 'Blog — Paperlane'))
 
 @section('content')
-    <div class="max-w-5xl mx-auto px-4 py-8">
+    <div class="max-w-5xl mx-auto px-6 lg:px-8 py-16">
         <!-- Header -->
-        <div class="mb-8">
+        <div class="mb-12">
             @if(isset($category))
-                <p class="text-sm text-gray-500 mb-1">Kategori</p>
-                <h1 class="text-3xl font-bold">{{ $category->name }}</h1>
+                <p class="text-sm text-stone-500 uppercase tracking-widest mb-3">Kategori</p>
+                <h1 class="font-serif text-5xl text-stone-900">{{ $category->name }}</h1>
             @elseif(isset($tag))
-                <p class="text-sm text-gray-500 mb-1">Tag</p>
-                <h1 class="text-3xl font-bold">#{{ $tag->name }}</h1>
+                <p class="text-sm text-stone-500 uppercase tracking-widest mb-3">Tag</p>
+                <h1 class="font-serif text-5xl text-stone-900">#{{ $tag->name }}</h1>
             @else
-                <h1 class="text-3xl font-bold">Blog</h1>
-                <p class="text-gray-600 mt-1">Semua tulisan yang diterbitkan di Paperlane.</p>
+                <h1 class="font-serif text-5xl md:text-6xl text-stone-900 mb-4">Blog</h1>
+                <p class="text-stone-600 text-lg">Semua tulisan yang diterbitkan di Paperlane.</p>
             @endif
         </div>
 
         <!-- Search -->
-        <form method="GET" action="{{ route('blog.index') }}" class="mb-8">
-            <div class="flex gap-2">
+        <form method="GET" action="{{ route('blog.index') }}" class="mb-12">
+            <div class="flex items-center border-b border-stone-300 focus-within:border-stone-900 transition">
                 <input type="text" name="q" value="{{ request('q') }}" 
                     placeholder="Cari tulisan..." 
-                    class="flex-1 border-gray-300 rounded-lg shadow-sm focus:border-gray-500 focus:ring-gray-500">
-                <button type="submit" class="px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">
+                    class="flex-1 bg-transparent border-0 px-0 py-3 text-lg placeholder-stone-400 focus:ring-0 focus:outline-none">
+                <button type="submit" class="text-sm text-stone-600 hover:text-stone-900 transition px-2">
                     Cari
                 </button>
             </div>
         </form>
 
         <!-- Filter -->
-        <div class="mb-8 space-y-3">
-            <div>
-                <span class="text-sm font-medium text-gray-700 mr-2">Kategori:</span>
-                <a href="{{ route('blog.index') }}" class="text-sm text-gray-600 hover:text-gray-900 mr-2">Semua</a>
-                @foreach($categories as $cat)
-                    <a href="{{ route('blog.category', $cat) }}" class="text-sm text-gray-600 hover:text-gray-900 mr-2">
-                        {{ $cat->name }}
-                    </a>
-                @endforeach
+        @if($categories->count() > 0 || $tags->count() > 0)
+            <div class="mb-12 pb-8 border-b border-stone-200">
+                @if($categories->count() > 0)
+                    <div class="flex flex-wrap items-center gap-3 mb-4">
+                        <span class="text-xs text-stone-500 uppercase tracking-widest">Kategori</span>
+                        <a href="{{ route('blog.index') }}" class="text-sm {{ !isset($category) && !isset($tag) ? 'text-stone-900 font-medium' : 'text-stone-600 hover:text-stone-900' }} transition">Semua</a>
+                        @foreach($categories as $cat)
+                            <a href="{{ route('blog.category', $cat) }}" class="text-sm {{ isset($category) && $category->id === $cat->id ? 'text-stone-900 font-medium' : 'text-stone-600 hover:text-stone-900' }} transition">
+                                {{ $cat->name }}
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
+
+                @if($tags->count() > 0)
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="text-xs text-stone-500 uppercase tracking-widest mr-1">Tag</span>
+                        @foreach($tags as $t)
+                            <a href="{{ route('blog.tag', $t) }}" class="text-xs px-3 py-1 rounded-full border {{ isset($tag) && $tag->id === $t->id ? 'bg-stone-900 text-white border-stone-900' : 'border-stone-300 text-stone-600 hover:border-stone-900 hover:text-stone-900' }} transition">
+                                #{{ $t->name }}
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
             </div>
-            <div>
-                <span class="text-sm font-medium text-gray-700 mr-2">Tag:</span>
-                @foreach($tags as $t)
-                    <a href="{{ route('blog.tag', $t) }}" class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded-full hover:bg-gray-300 mr-1">
-                        #{{ $t->name }}
-                    </a>
-                @endforeach
-            </div>
-        </div>
+        @endif
 
         <!-- Daftar Post -->
         @if($posts->count() > 0)
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-14">
                 @foreach($posts as $post)
-                    <article class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition">
+                    <article>
                         @if($post->category)
-                            <span class="text-xs text-gray-500 uppercase tracking-wide">{{ $post->category->name }}</span>
+                            <a href="{{ route('blog.category', $post->category) }}" class="text-xs text-stone-500 uppercase tracking-widest hover:text-stone-900 transition">
+                                {{ $post->category->name }}
+                            </a>
                         @endif
-                        <h2 class="text-xl font-semibold mt-2 mb-2">
-                            <a href="{{ route('blog.show', $post) }}" class="hover:text-blue-600">
+                        <h2 class="font-serif text-3xl text-stone-900 mt-3 mb-3 leading-tight">
+                            <a href="{{ route('blog.show', $post) }}" class="hover:text-stone-600 transition">
                                 {{ $post->title }}
                             </a>
                         </h2>
-                        <p class="text-sm text-gray-600 mb-4">
-                            {{ \Illuminate\Support\Str::limit(strip_tags($post->content), 120) }}
+                        <p class="text-stone-600 leading-relaxed mb-4">
+                            {{ \Illuminate\Support\Str::limit(strip_tags($post->content), 180) }}
                         </p>
-                        <div class="flex gap-1 mb-3">
-                            @foreach($post->tags as $t)
-                                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">#{{ $t->name }}</span>
-                            @endforeach
-                        </div>
-                        <div class="text-xs text-gray-400">
-                            Oleh {{ $post->user->name }} &middot; {{ $post->created_at->diffForHumans() }}
+                        <div class="flex items-center gap-3 text-sm text-stone-500">
+                            <span>{{ $post->user->name }}</span>
+                            <span>&middot;</span>
+                            <span>{{ $post->created_at->format('d M Y') }}</span>
+                            @if($post->tags->count() > 0)
+                                <span>&middot;</span>
+                                <div class="flex gap-1">
+                                    @foreach($post->tags->take(3) as $t)
+                                        <a href="{{ route('blog.tag', $t) }}" class="hover:text-stone-900 transition">#{{ $t->name }}</a>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
                     </article>
                 @endforeach
             </div>
 
-            <div class="mt-8">
+            <div class="mt-16">
                 {{ $posts->links() }}
             </div>
         @else
-            <div class="text-center text-gray-500 py-12">
-                Tidak ada tulisan yang ditemukan.
+            <div class="text-center py-20">
+                <p class="font-serif text-2xl text-stone-400 italic mb-2">Tidak ada tulisan.</p>
+                <p class="text-stone-500 text-sm">Coba kata kunci lain atau jelajahi kategori lain.</p>
             </div>
         @endif
     </div>
