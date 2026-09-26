@@ -1,56 +1,62 @@
 @extends('layouts.paperlane')
 
-@section('title', 'Paperlane — Ruang Menulis Digital')
+@section('title', $user->name . ' — Paperlane')
 
 @section('content')
-    <!-- Hero -->
-    <section class="w-full px-6 lg:px-12 pt-16 pb-12">
-        <div class="max-w-3xl">
-            <p class="text-xs text-[#3E2723]/60 tracking-widest uppercase mb-4">
-                Ruang menulis digital
-            </p>
-            <h1 class="font-serif text-4xl md:text-6xl text-[#3E2723] leading-[1.05] mb-5">
-                Tulis. Terbitkan.<br>
-                <span class="italic">Bagikan.</span>
-            </h1>
-            <p class="text-base md:text-lg text-[#3E2723]/75 leading-relaxed mb-8 max-w-xl">
-                Paperlane adalah tempat sederhana untuk menulis dan membaca. Tanpa gangguan, tanpa iklan, hanya kata-kata.
-            </p>
+    <div class="w-full px-6 lg:px-12 py-12">
+        <!-- Header Profil -->
+        <div class="flex flex-col md:flex-row items-start md:items-center gap-6 mb-12 pb-8 border-b border-[#3E2723]/10">
+            <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" class="w-24 h-24 rounded-full object-cover border-2 border-[#3E2723]/10">
 
-            <div class="flex flex-wrap items-center gap-3">
-                @guest
-                    <a href="{{ route('register') }}" class="px-5 py-2.5 bg-[#3E2723] text-[#F5F0E6] rounded-full hover:bg-[#3E2723]/85 transition text-sm font-medium">
-                        Mulai Menulis
-                    </a>
-                    <a href="{{ route('blog.index') }}" class="px-5 py-2.5 bg-[#F4C9D6] text-[#3E2723] rounded-full hover:bg-[#F4C9D6]/70 transition text-sm font-medium">
-                        Baca Blog &rarr;
-                    </a>
-                @endguest
+            <div class="flex-1">
+                <h1 class="font-serif text-3xl md:text-4xl text-[#3E2723] mb-2">{{ $user->name }}</h1>
+
+                @if($user->bio)
+                    <p class="text-[#3E2723]/75 leading-relaxed mb-4 max-w-2xl">{{ $user->bio }}</p>
+                @endif
+
+                <!-- Statistik -->
+                <div class="flex flex-wrap items-center gap-6 text-sm text-[#3E2723]/70">
+                    <div>
+                        <span class="font-serif text-xl text-[#3E2723]">{{ $stats['posts'] }}</span>
+                        <span class="ml-1">tulisan</span>
+                    </div>
+                    <div>
+                        <span class="font-serif text-xl text-[#3E2723]">{{ $stats['likes'] }}</span>
+                        <span class="ml-1">like</span>
+                    </div>
+                    <div>
+                        <span class="font-serif text-xl text-[#3E2723]">{{ $stats['comments'] }}</span>
+                        <span class="ml-1">komentar</span>
+                    </div>
+                </div>
 
                 @auth
-                    <a href="{{ url('/dashboard') }}" class="px-5 py-2.5 bg-[#3E2723] text-[#F5F0E6] rounded-full hover:bg-[#3E2723]/85 transition text-sm font-medium">
-                        Ke Dashboard
-                    </a>
-                    <a href="{{ route('blog.index') }}" class="px-5 py-2.5 bg-[#F4C9D6] text-[#3E2723] rounded-full hover:bg-[#F4C9D6]/70 transition text-sm font-medium">
-                        Baca Blog &rarr;
-                    </a>
+                    @if(auth()->id() === $user->id)
+                        <div class="mt-4">
+                            <a href="{{ route('profile.edit') }}" class="inline-block text-sm px-4 py-2 bg-[#3E2723] text-[#F5F0E6] rounded-full hover:bg-[#3E2723]/85 transition">
+                                Edit Profil
+                            </a>
+                        </div>
+                    @endif
                 @endauth
             </div>
         </div>
-    </section>
 
-    <!-- Tulisan Terbaru -->
-    @if($latestPosts->count() > 0)
-        <section class="w-full px-6 lg:px-12 py-12 border-t border-[#3E2723]/10">
-            <div class="flex justify-between items-baseline mb-8">
-                <h2 class="font-serif text-2xl md:text-3xl text-[#3E2723]">Tulisan Terbaru</h2>
-                <a href="{{ route('blog.index') }}" class="text-sm text-[#3E2723]/70 hover:text-[#3E2723] transition">
-                    Lihat semua &rarr;
-                </a>
+        @if(session('success'))
+            <div class="bg-[#F4C9D6] text-[#3E2723] px-4 py-3 rounded-lg mb-6 text-sm max-w-md">
+                {{ session('success') }}
             </div>
+        @endif
 
+        <!-- Tulisan Author -->
+        <div class="mb-8">
+            <h2 class="font-serif text-2xl text-[#3E2723]">Tulisan {{ $user->name }}</h2>
+        </div>
+
+        @if($posts->count() > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
-                @foreach($latestPosts as $post)
+                @foreach($posts as $post)
                     <article class="flex flex-col">
                         @if($post->category)
                             <a href="{{ route('blog.category', $post->category) }}" class="text-xs text-[#3E2723]/60 uppercase tracking-widest hover:text-[#3E2723] transition">
@@ -66,10 +72,6 @@
                             {{ \Illuminate\Support\Str::limit(strip_tags($post->content), 120) }}
                         </p>
                         <div class="flex items-center gap-2 text-xs text-[#3E2723]/60">
-                            <a href="{{ route('profile.show', $post->user) }}" class="hover:text-[#3E2723] transition">
-                                {{ $post->user->name }}
-                            </a>
-                            <span>&middot;</span>
                             <span>{{ $post->created_at->format('d M Y') }}</span>
                         </div>
                         <div class="flex items-center gap-3 text-xs text-[#3E2723]/60 mt-2">
@@ -89,6 +91,14 @@
                     </article>
                 @endforeach
             </div>
-        </section>
-    @endif
+
+            <div class="mt-12">
+                {{ $posts->links() }}
+            </div>
+        @else
+            <div class="text-center py-20">
+                <p class="font-serif text-xl text-[#3E2723]/50 italic">Belum ada tulisan yang diterbitkan.</p>
+            </div>
+        @endif
+    </div>
 @endsection

@@ -77,7 +77,9 @@
                             {{ \Illuminate\Support\Str::limit(strip_tags($post->content), 120) }}
                         </p>
                         <div class="flex flex-wrap items-center gap-2 text-xs text-[#3E2723]/60">
-                            <span>{{ $post->user->name }}</span>
+                            <a href="{{ route('profile.show', $post->user) }}" class="hover:text-[#3E2723] transition">
+                                {{ $post->user->name }}
+                            </a>
                             <span>&middot;</span>
                             <span>{{ $post->created_at->format('d M Y') }}</span>
                         </div>

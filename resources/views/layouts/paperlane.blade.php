@@ -26,6 +26,9 @@
                             Blog
                         </a>
                         @auth
+                            <a href="{{ route('profile.show', auth()->user()) }}" class="text-sm text-[#3E2723]/70 hover:text-[#3E2723] transition">
+                                Profil
+                            </a>
                             <a href="{{ url('/dashboard') }}" class="text-sm text-[#3E2723]/70 hover:text-[#3E2723] transition">
                                 Dashboard
                             </a>

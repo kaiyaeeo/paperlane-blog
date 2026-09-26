@@ -20,7 +20,11 @@
                 {{ $post->title }}
             </h1>
             <div class="flex items-center gap-2 text-xs text-[#3E2723]/60 mb-6">
-                <span>Oleh <strong class="text-[#3E2723]">{{ $post->user->name }}</strong></span>
+                <span>Oleh
+                    <a href="{{ route('profile.show', $post->user) }}" class="font-medium text-[#3E2723] hover:underline">
+                        {{ $post->user->name }}
+                    </a>
+                </span>
                 <span>&middot;</span>
                 <span>{{ $post->created_at->format('d M Y') }}</span>
             </div>
@@ -123,13 +127,15 @@
                     @forelse($post->comments as $comment)
                         <div class="flex gap-3">
                             <div class="flex-shrink-0">
-                                <div class="w-9 h-9 rounded-full bg-[#F4C9D6] flex items-center justify-center text-[#3E2723] font-medium text-sm">
-                                    {{ strtoupper(substr($comment->user->name, 0, 1)) }}
-                                </div>
+                                <a href="{{ route('profile.show', $comment->user) }}">
+                                    <img src="{{ $comment->user->avatar_url }}" alt="{{ $comment->user->name }}" class="w-9 h-9 rounded-full object-cover">
+                                </a>
                             </div>
                             <div class="flex-1">
                                 <div class="flex items-baseline gap-2 mb-1">
-                                    <span class="font-medium text-[#3E2723] text-sm">{{ $comment->user->name }}</span>
+                                    <a href="{{ route('profile.show', $comment->user) }}" class="font-medium text-[#3E2723] text-sm hover:underline">
+                                        {{ $comment->user->name }}
+                                    </a>
                                     <span class="text-xs text-[#3E2723]/50">{{ $comment->created_at->diffForHumans() }}</span>
                                 </div>
                                 <p class="text-[#3E2723]/85 leading-relaxed text-sm">
