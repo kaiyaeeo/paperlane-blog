@@ -24,11 +24,13 @@ class CommentController extends Controller
 
     public function destroy(Comment $comment)
     {
-        // Pemilik komentar atau pemilik post boleh menghapus
-        $isCommentOwner = $comment->user_id === auth()->id();
-        $isPostOwner = $comment->post->user_id === auth()->id();
+        $user = auth()->user();
 
-        if (! $isCommentOwner && ! $isPostOwner) {
+        $isCommentOwner = $comment->user_id === $user->id;
+        $isPostOwner = $comment->post->user_id === $user->id;
+        $isAdmin = $user->isAdmin();
+
+        if (! $isCommentOwner && ! $isPostOwner && ! $isAdmin) {
             abort(403);
         }
 

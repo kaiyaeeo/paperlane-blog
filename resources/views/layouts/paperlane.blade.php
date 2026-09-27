@@ -35,6 +35,11 @@
                             <a href="{{ route('bookmarks.index') }}" class="text-sm text-[#3E2723]/70 hover:text-[#3E2723] transition">
                                 Bookmark
                             </a>
+                            @if(auth()->user()->isAdmin())
+                                <a href="{{ route('admin.users.index') }}" class="text-sm text-[#3E2723]/70 hover:text-[#3E2723] transition">
+                                    Admin
+                                </a>
+                            @endif
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="text-sm text-[#3E2723]/70 hover:text-[#3E2723] transition">
@@ -42,12 +47,7 @@
                                 </button>
                             </form>
                         @else
-                            <a href="{{ route('login') }}" class="text-sm text-[#3E2723]/70 hover:text-[#3E2723] transition">
-                                Log in
-                            </a>
-                            <a href="{{ route('register') }}" class="text-sm px-4 py-1.5 bg-[#3E2723] text-[#F5F0E6] rounded-full hover:bg-[#3E2723]/85 transition">
-                                Mulai Menulis
-                            </a>
+                            ...
                         @endauth
                     </div>
                 </div>

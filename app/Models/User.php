@@ -17,6 +17,7 @@ class User extends Authenticatable
         'password',
         'bio',
         'avatar',
+        'role',
     ];
 
     protected $hidden = [
@@ -52,9 +53,16 @@ class User extends Authenticatable
         return $this->hasMany(Bookmark::class);
     }
 
-    /**
-     * URL avatar (default pakai UI Avatars dengan palette Paperlane).
-     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isAuthor(): bool
+    {
+        return $this->role === 'author';
+    }
+
     public function getAvatarUrlAttribute(): string
     {
         if ($this->avatar) {
