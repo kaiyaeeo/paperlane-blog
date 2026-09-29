@@ -1,31 +1,35 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
+@extends('layouts.auth')
+
+@section('title', 'Verifikasi Email — Paperlane')
+
+@section('content')
+    <div class="mb-8">
+        <h1 class="font-serif text-3xl mb-2">Verifikasi email</h1>
+        <p class="text-[#3E2723]/70 text-sm leading-relaxed">
+            Terima kasih sudah mendaftar! Sebelum mulai, tolong verifikasi alamat email kamu dengan mengklik tautan yang baru saja kami kirimkan.
+            Kalau kamu tidak menerima emailnya, kami bisa mengirim ulang.
+        </p>
     </div>
 
     @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+        <div class="mb-6 text-sm text-[#3E2723] bg-[#F4C9D6]/50 px-4 py-3 rounded-lg">
+            Tautan verifikasi baru sudah dikirim ke alamat email yang kamu daftarkan.
         </div>
     @endif
 
-    <div class="mt-4 flex items-center justify-between">
+    <div class="flex items-center justify-between gap-4">
         <form method="POST" action="{{ route('verification.send') }}">
             @csrf
-
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
-            </div>
+            <button type="submit" class="px-6 py-3 bg-[#3E2723] text-[#F5F0E6] rounded-full hover:bg-[#3E2723]/85 transition text-sm font-medium">
+                Kirim Ulang Email
+            </button>
         </form>
 
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-
-            <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Log Out') }}
+            <button type="submit" class="text-sm text-[#3E2723]/70 hover:text-[#3E2723] underline-offset-2 hover:underline">
+                Log out
             </button>
         </form>
     </div>
-</x-guest-layout>
+@endsection

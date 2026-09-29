@@ -1,25 +1,38 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+@extends('layouts.auth')
+
+@section('title', 'Lupa Password — Paperlane')
+
+@section('content')
+    <div class="mb-8">
+        <h1 class="font-serif text-3xl mb-2">Lupa password?</h1>
+        <p class="text-[#3E2723]/60 text-sm">
+            Masukkan email kamu, kami akan kirimkan tautan untuk mengatur ulang password.
+        </p>
     </div>
 
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    @if (session('status'))
+        <div class="mb-6 text-sm text-[#3E2723] bg-[#F4C9D6]/50 px-4 py-3 rounded-lg">
+            {{ session('status') }}
+        </div>
+    @endif
 
-    <form method="POST" action="{{ route('password.email') }}">
+    <form method="POST" action="{{ route('password.email') }}" class="space-y-5">
         @csrf
 
-        <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <label for="email" class="block text-sm font-medium mb-2">Email</label>
+            <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
+                class="w-full bg-white border-[#3E2723]/15 rounded-lg shadow-sm focus:border-[#3E2723] focus:ring-[#3E2723] text-[#3E2723] px-4 py-3">
+            @error('email') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
-        </div>
+        <button type="submit" class="w-full px-6 py-3 bg-[#3E2723] text-[#F5F0E6] rounded-full hover:bg-[#3E2723]/85 transition text-sm font-medium">
+            Kirim Tautan Reset
+        </button>
+
+        <p class="text-center text-sm text-[#3E2723]/70 pt-2">
+            Ingat password-mu?
+            <a href="{{ route('login') }}" class="text-[#3E2723] font-medium hover:underline">Kembali ke login</a>
+        </p>
     </form>
-</x-guest-layout>
+@endsection

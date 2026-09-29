@@ -79,7 +79,7 @@
             height: 500,
             menubar: false,
             branding: false,
-            plugins: 'lists link code blockquote hr image',
+            plugins: 'lists link code image',
             toolbar: 'undo redo | blocks | bold italic underline strikethrough | bullist numlist blockquote | link image | hr | code',
             skin: 'oxide',
             content_css: 'default',

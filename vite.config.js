@@ -10,4 +10,10 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
+    optimizeDeps: {
+        include: ['tinymce'],
+    },
+    build: {
+    chunkSizeWarningLimit: 1500,
+    },
 });
