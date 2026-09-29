@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Mews\Purifier\Facades\Purifier;
 
 class PostController extends Controller
 {
@@ -47,6 +48,7 @@ class PostController extends Controller
 
         $validated['user_id'] = auth()->id();
         $validated['slug'] = Str::slug($request->title) . '-' . Str::random(5);
+        $validated['content'] = Purifier::clean($validated['content']);
 
         $post = Post::create($validated);
 
@@ -88,6 +90,8 @@ class PostController extends Controller
         if ($post->title !== $validated['title']) {
             $validated['slug'] = Str::slug($validated['title']) . '-' . Str::random(5);
         }
+
+        $validated['content'] = Purifier::clean($validated['content']);
 
         $post->update($validated);
 

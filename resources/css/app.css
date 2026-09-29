@@ -1,3 +1,27 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+    --font-sans: 'Figtree', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
+}
+
+/* Content styling untuk post */
+.prose-paperlane h1 { font-family: 'Instrument Serif', serif; font-size: 2rem; margin-top: 2rem; margin-bottom: 1rem; line-height: 1.2; }
+.prose-paperlane h2 { font-family: 'Instrument Serif', serif; font-size: 1.5rem; margin-top: 1.75rem; margin-bottom: 0.75rem; line-height: 1.3; }
+.prose-paperlane h3 { font-family: 'Instrument Serif', serif; font-size: 1.25rem; margin-top: 1.5rem; margin-bottom: 0.5rem; line-height: 1.4; }
+.prose-paperlane h4 { font-family: 'Instrument Serif', serif; font-size: 1.1rem; margin-top: 1.25rem; margin-bottom: 0.5rem; font-weight: 600; }
+.prose-paperlane p { margin-bottom: 1.25rem; }
+.prose-paperlane ul, .prose-paperlane ol { margin: 1rem 0 1.25rem 1.5rem; }
+.prose-paperlane ul { list-style: disc; }
+.prose-paperlane ol { list-style: decimal; }
+.prose-paperlane li { margin-bottom: 0.5rem; }
+.prose-paperlane blockquote { border-left: 3px solid #F4C9D6; padding-left: 1.25rem; margin: 1.5rem 0; font-style: italic; color: rgba(62, 39, 35, 0.8); }
+.prose-paperlane a { color: #3E2723; text-decoration: underline; }
+.prose-paperlane a:hover { text-decoration: none; }
+.prose-paperlane code { background: #F5F0E6; padding: 0.15rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; }
+.prose-paperlane pre { background: #3E2723; color: #F5F0E6; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 1.5rem 0; }
+.prose-paperlane pre code { background: transparent; color: inherit; padding: 0; }
+.prose-paperlane img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1.5rem 0; }
+.prose-paperlane hr { border: none; border-top: 1px solid rgba(62, 39, 35, 0.15); margin: 2rem 0; }
+.prose-paperlane strong { font-weight: 600; }
+.prose-paperlane em { font-style: italic; }
