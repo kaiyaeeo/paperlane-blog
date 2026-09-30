@@ -6,22 +6,22 @@
     <div class="w-full px-6 lg:px-12 py-12">
         <article class="max-w-3xl">
             <!-- Back -->
-            <a href="{{ route('blog.index') }}" class="text-sm text-[#3E2723]/60 hover:text-[#3E2723] transition inline-block mb-8">
+            <a href="{{ route('blog.index') }}" class="text-sm text-ink/60 hover:text-ink transition inline-block mb-8">
                 &larr; Kembali
             </a>
 
             <!-- Header -->
             @if($post->category)
-                <a href="{{ route('blog.category', $post->category) }}" class="text-xs text-[#3E2723]/60 uppercase tracking-widest hover:text-[#3E2723] transition">
+                <a href="{{ route('blog.category', $post->category) }}" class="text-xs text-ink/60 uppercase tracking-widest hover:text-ink transition">
                     {{ $post->category->name }}
                 </a>
             @endif
-            <h1 class="font-serif text-3xl md:text-5xl text-[#3E2723] leading-[1.1] mt-3 mb-4">
+            <h1 class="font-serif text-3xl md:text-5xl text-ink leading-[1.1] mt-3 mb-4">
                 {{ $post->title }}
             </h1>
-            <div class="flex items-center gap-2 text-xs text-[#3E2723]/60 mb-6">
+            <div class="flex items-center gap-2 text-xs text-ink/60 mb-6">
                 <span>Oleh
-                    <a href="{{ route('profile.show', $post->user) }}" class="font-medium text-[#3E2723] hover:underline">
+                    <a href="{{ route('profile.show', $post->user) }}" class="font-medium text-ink hover:underline">
                         {{ $post->user->name }}
                     </a>
                 </span>
@@ -30,7 +30,7 @@
             </div>
 
             <!-- Action Bar -->
-            <div class="flex items-center gap-4 mb-10 pb-6 border-b border-[#3E2723]/10">
+            <div class="flex items-center gap-4 mb-10 pb-6 border-b border-ink/10">
                 @auth
                     @php
                         $isLiked = $post->likes->where('user_id', auth()->id())->count() > 0;
@@ -40,7 +40,7 @@
                     <!-- Like Button -->
                     <form action="{{ route('likes.toggle', $post) }}" method="POST">
                         @csrf
-                        <button type="submit" class="flex items-center gap-2 text-sm transition {{ $isLiked ? 'text-red-500' : 'text-[#3E2723]/60 hover:text-[#3E2723]' }}">
+                        <button type="submit" class="flex items-center gap-2 text-sm transition {{ $isLiked ? 'text-red-500' : 'text-ink/60 hover:text-ink' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="{{ $isLiked ? 'currentColor' : 'none' }}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                             </svg>
@@ -51,7 +51,7 @@
                     <!-- Bookmark Button -->
                     <form action="{{ route('bookmarks.toggle', $post) }}" method="POST">
                         @csrf
-                        <button type="submit" class="flex items-center gap-2 text-sm transition {{ $isBookmarked ? 'text-[#3E2723]' : 'text-[#3E2723]/60 hover:text-[#3E2723]' }}">
+                        <button type="submit" class="flex items-center gap-2 text-sm transition {{ $isBookmarked ? 'text-ink' : 'text-ink/60 hover:text-ink' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="{{ $isBookmarked ? 'currentColor' : 'none' }}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                             </svg>
@@ -59,14 +59,14 @@
                         </button>
                     </form>
                 @else
-                    <div class="flex items-center gap-4 text-sm text-[#3E2723]/60">
+                    <div class="flex items-center gap-4 text-sm text-ink/60">
                         <div class="flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                             </svg>
                             <span>{{ $post->likes->count() }}</span>
                         </div>
-                        <a href="{{ route('login') }}" class="underline hover:no-underline text-[#3E2723]">
+                        <a href="{{ route('login') }}" class="underline hover:no-underline text-ink">
                             Login
                         </a>
                         <span>untuk like & simpan</span>
@@ -75,15 +75,15 @@
             </div>
 
             <!-- Konten -->
-            <div class="text-[#3E2723] leading-[1.8] text-base md:text-lg space-y-5">
+            <div class="text-ink leading-[1.8] text-base md:text-lg space-y-5">
                 {!! nl2br(e($post->content)) !!}
             </div>
 
             <!-- Tag -->
             @if($post->tags->count() > 0)
-                <div class="flex flex-wrap gap-2 mt-10 pt-6 border-t border-[#3E2723]/10">
+                <div class="flex flex-wrap gap-2 mt-10 pt-6 border-t border-ink/10">
                     @foreach($post->tags as $tag)
-                        <a href="{{ route('blog.tag', $tag) }}" class="text-xs px-3 py-1 rounded-full bg-[#F4C9D6]/60 text-[#3E2723] hover:bg-[#F4C9D6] transition">
+                        <a href="{{ route('blog.tag', $tag) }}" class="text-xs px-3 py-1 rounded-full bg-accent/60 text-ink hover:bg-accent transition">
                             #{{ $tag->name }}
                         </a>
                     @endforeach
@@ -91,13 +91,13 @@
             @endif
 
             <!-- Komentar -->
-            <section class="mt-12 pt-10 border-t border-[#3E2723]/10">
-                <h2 class="font-serif text-xl md:text-2xl text-[#3E2723] mb-6">
+            <section class="mt-12 pt-10 border-t border-ink/10">
+                <h2 class="font-serif text-xl md:text-2xl text-ink mb-6">
                     Komentar ({{ $post->comments->count() }})
                 </h2>
 
                 @if(session('success'))
-                    <div class="bg-[#F4C9D6] text-[#3E2723] px-4 py-3 rounded-lg mb-6 text-sm">
+                    <div class="bg-accent text-ink px-4 py-3 rounded-lg mb-6 text-sm">
                         {{ session('success') }}
                     </div>
                 @endif
@@ -109,16 +109,16 @@
                         <div class="mb-3">
                             <textarea name="content" rows="3" 
                                 placeholder="Tulis komentar..." 
-                                class="w-full border-[#3E2723]/20 rounded-lg shadow-sm focus:border-[#3E2723] focus:ring-[#3E2723] text-sm bg-white text-[#3E2723]">{{ old('content') }}</textarea>
+                                class="w-full border-ink/20 rounded-lg shadow-sm focus:border-ink focus:ring-[#3E2723] text-sm bg-surface text-ink">{{ old('content') }}</textarea>
                             @error('content') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                         </div>
-                        <button type="submit" class="px-5 py-2 bg-[#3E2723] text-[#F5F0E6] rounded-full hover:bg-[#3E2723]/85 transition text-sm">
+                        <button type="submit" class="px-5 py-2 bg-ink text-paper rounded-full hover:bg-ink/85 transition text-sm">
                             Kirim Komentar
                         </button>
                     </form>
                 @else
-                    <div class="mb-10 p-4 border border-[#3E2723]/15 rounded-lg text-sm text-[#3E2723]/75 bg-[#F4C9D6]/30">
-                        <a href="{{ route('login') }}" class="text-[#3E2723] underline hover:no-underline">Login</a> untuk menulis komentar.
+                    <div class="mb-10 p-4 border border-ink/15 rounded-lg text-sm text-ink/75 bg-accent/30">
+                        <a href="{{ route('login') }}" class="text-ink underline hover:no-underline">Login</a> untuk menulis komentar.
                     </div>
                 @endauth
 
@@ -133,12 +133,12 @@
                             </div>
                             <div class="flex-1">
                                 <div class="flex items-baseline gap-2 mb-1">
-                                    <a href="{{ route('profile.show', $comment->user) }}" class="font-medium text-[#3E2723] text-sm hover:underline">
+                                    <a href="{{ route('profile.show', $comment->user) }}" class="font-medium text-ink text-sm hover:underline">
                                         {{ $comment->user->name }}
                                     </a>
-                                    <span class="text-xs text-[#3E2723]/50">{{ $comment->created_at->diffForHumans() }}</span>
+                                    <span class="text-xs text-ink/50">{{ $comment->created_at->diffForHumans() }}</span>
                                 </div>
-                                <p class="text-[#3E2723]/85 leading-relaxed text-sm">
+                                <p class="text-ink/85 leading-relaxed text-sm">
                                     {{ $comment->content }}
                                 </p>
 
@@ -147,7 +147,7 @@
                                         <form action="{{ route('comments.destroy', $comment) }}" method="POST" class="mt-2" onsubmit="return confirm('Hapus komentar ini?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-xs text-[#3E2723]/50 hover:text-red-600 transition">
+                                            <button type="submit" class="text-xs text-ink/50 hover:text-red-600 transition">
                                                 Hapus
                                             </button>
                                         </form>
@@ -156,7 +156,7 @@
                             </div>
                         </div>
                     @empty
-                        <p class="text-[#3E2723]/50 text-sm italic">Belum ada komentar. Jadilah yang pertama!</p>
+                        <p class="text-ink/50 text-sm italic">Belum ada komentar. Jadilah yang pertama!</p>
                     @endforelse
                 </div>
             </section>
@@ -164,15 +164,15 @@
 
         <!-- Post Terkait -->
         @if($relatedPosts->count() > 0)
-            <section class="max-w-3xl mt-12 pt-10 border-t border-[#3E2723]/10">
-                <h2 class="font-serif text-xl text-[#3E2723] mb-6">Tulisan Terkait</h2>
+            <section class="max-w-3xl mt-12 pt-10 border-t border-ink/10">
+                <h2 class="font-serif text-xl text-ink mb-6">Tulisan Terkait</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     @foreach($relatedPosts as $related)
                         <a href="{{ route('blog.show', $related) }}" class="block group">
-                            <h3 class="font-serif text-base text-[#3E2723] group-hover:text-[#3E2723]/70 transition mb-1 leading-snug">
+                            <h3 class="font-serif text-base text-ink group-hover:text-ink/70 transition mb-1 leading-snug">
                                 {{ $related->title }}
                             </h3>
-                            <p class="text-xs text-[#3E2723]/50">
+                            <p class="text-xs text-ink/50">
                                 {{ $related->created_at->format('d M Y') }}
                             </p>
                         </a>

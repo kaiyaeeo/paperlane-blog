@@ -5,32 +5,32 @@
 @section('content')
     <div class="w-full px-6 lg:px-12 py-12">
         <div class="mb-8">
-            <h1 class="font-serif text-3xl md:text-4xl text-[#3E2723] mb-2">Kelola User</h1>
-            <p class="text-[#3E2723]/70">Manajemen user dan statistik Paperlane.</p>
+            <h1 class="font-serif text-3xl md:text-4xl text-ink mb-2">Kelola User</h1>
+            <p class="text-ink/70">Manajemen user dan statistik Paperlane.</p>
         </div>
 
         <!-- Statistik -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-            <div class="bg-[#F4C9D6]/40 rounded-lg p-4">
-                <div class="text-xs text-[#3E2723]/60 uppercase tracking-widest mb-1">Total User</div>
-                <div class="font-serif text-3xl text-[#3E2723]">{{ $stats['users'] }}</div>
+            <div class="bg-accent/40 rounded-lg p-4">
+                <div class="text-xs text-ink/60 uppercase tracking-widest mb-1">Total User</div>
+                <div class="font-serif text-3xl text-ink">{{ $stats['users'] }}</div>
             </div>
-            <div class="bg-[#F4C9D6]/40 rounded-lg p-4">
-                <div class="text-xs text-[#3E2723]/60 uppercase tracking-widest mb-1">Total Post</div>
-                <div class="font-serif text-3xl text-[#3E2723]">{{ $stats['posts'] }}</div>
+            <div class="bg-accent/40 rounded-lg p-4">
+                <div class="text-xs text-ink/60 uppercase tracking-widest mb-1">Total Post</div>
+                <div class="font-serif text-3xl text-ink">{{ $stats['posts'] }}</div>
             </div>
-            <div class="bg-[#F4C9D6]/40 rounded-lg p-4">
-                <div class="text-xs text-[#3E2723]/60 uppercase tracking-widest mb-1">Published</div>
-                <div class="font-serif text-3xl text-[#3E2723]">{{ $stats['published'] }}</div>
+            <div class="bg-accent/40 rounded-lg p-4">
+                <div class="text-xs text-ink/60 uppercase tracking-widest mb-1">Published</div>
+                <div class="font-serif text-3xl text-ink">{{ $stats['published'] }}</div>
             </div>
-            <div class="bg-[#F4C9D6]/40 rounded-lg p-4">
-                <div class="text-xs text-[#3E2723]/60 uppercase tracking-widest mb-1">Draft</div>
-                <div class="font-serif text-3xl text-[#3E2723]">{{ $stats['drafts'] }}</div>
+            <div class="bg-accent/40 rounded-lg p-4">
+                <div class="text-xs text-ink/60 uppercase tracking-widest mb-1">Draft</div>
+                <div class="font-serif text-3xl text-ink">{{ $stats['drafts'] }}</div>
             </div>
         </div>
 
         @if(session('success'))
-            <div class="bg-[#F4C9D6] text-[#3E2723] px-4 py-3 rounded-lg mb-6 text-sm max-w-md">
+            <div class="bg-accent text-ink px-4 py-3 rounded-lg mb-6 text-sm max-w-md">
                 {{ session('success') }}
             </div>
         @endif
@@ -42,9 +42,9 @@
         @endif
 
         <!-- Tabel User -->
-        <div class="bg-white rounded-lg border border-[#3E2723]/10 overflow-hidden">
+        <div class="bg-surface rounded-lg border border-ink/10 overflow-hidden">
             <table class="w-full text-sm">
-                <thead class="bg-[#3E2723]/5 text-[#3E2723]/70 text-xs uppercase tracking-widest">
+                <thead class="bg-ink/5 text-ink/70 text-xs uppercase tracking-widest">
                     <tr>
                         <th class="text-left px-4 py-3">User</th>
                         <th class="text-left px-4 py-3 hidden md:table-cell">Email</th>
@@ -56,27 +56,27 @@
                 </thead>
                 <tbody>
                     @foreach($users as $user)
-                        <tr class="border-t border-[#3E2723]/10 hover:bg-[#F5F0E6]/50">
+                        <tr class="border-t border-ink/10 hover:bg-paper/50">
                             <td class="px-4 py-3">
                                 <div class="flex items-center gap-3">
                                     <img src="{{ $user->avatar_url }}" alt="" class="w-8 h-8 rounded-full object-cover">
                                     <div>
-                                        <div class="font-medium text-[#3E2723]">{{ $user->name }}</div>
+                                        <div class="font-medium text-ink">{{ $user->name }}</div>
                                         @if($user->id === auth()->id())
-                                            <div class="text-xs text-[#3E2723]/50">(kamu)</div>
+                                            <div class="text-xs text-ink/50">(kamu)</div>
                                         @endif
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-4 py-3 text-[#3E2723]/70 hidden md:table-cell">{{ $user->email }}</td>
-                            <td class="px-4 py-3 text-center text-[#3E2723]">{{ $user->posts_count }}</td>
-                            <td class="px-4 py-3 text-center text-[#3E2723] hidden md:table-cell">{{ $user->comments_count }}</td>
+                            <td class="px-4 py-3 text-ink/70 hidden md:table-cell">{{ $user->email }}</td>
+                            <td class="px-4 py-3 text-center text-ink">{{ $user->posts_count }}</td>
+                            <td class="px-4 py-3 text-center text-ink hidden md:table-cell">{{ $user->comments_count }}</td>
                             <td class="px-4 py-3">
                                 <form action="{{ route('admin.users.updateRole', $user) }}" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <select name="role" onchange="this.form.submit()" 
-                                        class="text-xs bg-white border-[#3E2723]/20 rounded-lg focus:border-[#3E2723] focus:ring-[#3E2723] text-[#3E2723] py-1 pl-2 pr-6">
+                                        class="text-xs bg-surface border-ink/20 rounded-lg focus:border-ink focus:ring-[#3E2723] text-ink py-1 pl-2 pr-6">
                                         <option value="author" {{ $user->role === 'author' ? 'selected' : '' }}>Author</option>
                                         <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
                                     </select>
@@ -92,7 +92,7 @@
                                         </button>
                                     </form>
                                 @else
-                                    <span class="text-xs text-[#3E2723]/30">—</span>
+                                    <span class="text-xs text-ink/30">—</span>
                                 @endif
                             </td>
                         </tr>

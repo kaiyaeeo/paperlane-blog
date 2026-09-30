@@ -10,18 +10,25 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700|instrument-serif:400,400i&display=swap" rel="stylesheet" />
 
+    <script>
+        (function () {
+            const stored = localStorage.getItem('theme');
+            if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-[#F5F0E6] text-[#3E2723]">
+<body class="font-sans antialiased bg-paper text-ink">
     <div class="min-h-screen grid lg:grid-cols-2">
-        <!-- Kiri: Branding -->
+        <!-- Branding: SELALU cokelat tua (tidak berubah di dark mode) -->
         <div class="hidden lg:flex flex-col justify-between bg-[#3E2723] text-[#F5F0E6] p-12">
-            <a href="{{ route('home') }}" class="font-serif text-3xl tracking-tight">
-                Paperlane
-            </a>
+            <a href="{{ route('home') }}" class="font-serif text-3xl tracking-tight text-[#F5F0E6]">Paperlane</a>
 
             <div>
-                <h2 class="font-serif text-5xl leading-[1.1] mb-6">
+                <h2 class="font-serif text-5xl leading-[1.1] mb-6 text-[#F5F0E6]">
                     Tulis. Terbitkan.<br>
                     <span class="italic">Bagikan.</span>
                 </h2>
@@ -30,19 +37,18 @@
                 </p>
             </div>
 
-            <div class="text-xs text-[#F5F0E6]/40">
-                &copy; {{ date('Y') }} Paperlane
-            </div>
+            <div class="text-xs text-[#F5F0E6]/40">&copy; {{ date('Y') }} Paperlane</div>
         </div>
 
-        <!-- Kanan: Form -->
-        <div class="flex flex-col justify-center items-center p-6 lg:p-12">
+        <!-- Form: ikut dark mode -->
+        <div class="flex flex-col justify-center items-center p-6 lg:p-12 bg-paper">
             <div class="w-full max-w-md">
-                <a href="{{ route('home') }}" class="lg:hidden font-serif text-2xl mb-8 inline-block">
-                    Paperlane
-                </a>
+                <a href="{{ route('home') }}" class="lg:hidden font-serif text-2xl mb-8 inline-block text-ink">Paperlane</a>
 
-                @yield('content')
+                <!-- Wrapper untuk form: pastikan teks pakai warna ink -->
+                <div class="text-ink">
+                    @yield('content')
+                </div>
             </div>
         </div>
     </div>

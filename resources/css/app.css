@@ -1,8 +1,22 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
     --font-sans: 'Figtree', ui-sans-serif, system-ui, sans-serif;
     --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
+
+    --color-paper:   #F5F0E6;
+    --color-ink:     #3E2723;
+    --color-accent:  #F4C9D6;
+    --color-surface: #FFFFFF;
+}
+
+.dark {
+    --color-paper:   #1A120F;
+    --color-ink:     #F0E8DC;
+    --color-accent:  #8B5A6B;
+    --color-surface: #2A1F1B;
 }
 
 /* Content styling untuk post */
@@ -15,13 +29,52 @@
 .prose-paperlane ul { list-style: disc; }
 .prose-paperlane ol { list-style: decimal; }
 .prose-paperlane li { margin-bottom: 0.5rem; }
-.prose-paperlane blockquote { border-left: 3px solid #F4C9D6; padding-left: 1.25rem; margin: 1.5rem 0; font-style: italic; color: rgba(62, 39, 35, 0.8); }
-.prose-paperlane a { color: #3E2723; text-decoration: underline; }
+.prose-paperlane blockquote { border-left: 3px solid var(--color-accent); padding-left: 1.25rem; margin: 1.5rem 0; font-style: italic; opacity: 0.85; }
+.prose-paperlane a { color: var(--color-ink); text-decoration: underline; }
 .prose-paperlane a:hover { text-decoration: none; }
-.prose-paperlane code { background: #F5F0E6; padding: 0.15rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; }
-.prose-paperlane pre { background: #3E2723; color: #F5F0E6; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 1.5rem 0; }
+.prose-paperlane code { background: var(--color-paper); padding: 0.15rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; }
+.prose-paperlane pre { background: var(--color-ink); color: var(--color-paper); padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 1.5rem 0; }
 .prose-paperlane pre code { background: transparent; color: inherit; padding: 0; }
 .prose-paperlane img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1.5rem 0; }
-.prose-paperlane hr { border: none; border-top: 1px solid rgba(62, 39, 35, 0.15); margin: 2rem 0; }
+.prose-paperlane hr { border: none; border-top: 1px solid color-mix(in srgb, var(--color-ink) 15%, transparent); margin: 2rem 0; }
 .prose-paperlane strong { font-weight: 600; }
 .prose-paperlane em { font-style: italic; }
+
+/* ===== TinyMCE override biar menyatu dengan tema ===== */
+.tox-tinymce {
+    border-radius: 0.75rem !important;
+    border-color: color-mix(in srgb, var(--color-ink) 15%, transparent) !important;
+    background: var(--color-surface) !important;
+    overflow: hidden;
+}
+.tox .tox-editor-header {
+    background: var(--color-surface) !important;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent) !important;
+}
+.tox .tox-toolbar,
+.tox .tox-toolbar__primary,
+.tox .tox-toolbar-overlord {
+    background: var(--color-surface) !important;
+}
+.tox .tox-tbtn {
+    color: color-mix(in srgb, var(--color-ink) 80%, transparent) !important;
+}
+.tox .tox-tbtn:hover {
+    background: color-mix(in srgb, var(--color-ink) 8%, transparent) !important;
+}
+.tox .tox-tbtn--enabled {
+    background: color-mix(in srgb, var(--color-ink) 12%, transparent) !important;
+    color: var(--color-ink) !important;
+}
+.tox .tox-statusbar {
+    background: var(--color-surface) !important;
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent) !important;
+    color: color-mix(in srgb, var(--color-ink) 60%, transparent) !important;
+}
+.tox .tox-statusbar__path-item,
+.tox .tox-statusbar__wordcount {
+    color: color-mix(in srgb, var(--color-ink) 60%, transparent) !important;
+}
+.tox:not(.tox-tinymce-inline) .tox-editor-header {
+    box-shadow: none !important;
+}

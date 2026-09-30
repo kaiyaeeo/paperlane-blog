@@ -19,7 +19,7 @@
 
         <div class="space-y-4">
             @forelse($posts as $post)
-                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex justify-between items-center">
+                <div class="bg-surface p-4 rounded-lg shadow-sm border border-gray-100 flex justify-between items-center">
                     <div>
                         <h2 class="text-lg font-semibold">{{ $post->title }}</h2>
                         <p class="text-sm text-gray-500">
