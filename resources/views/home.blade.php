@@ -1,6 +1,14 @@
 @extends('layouts.paperlane')
 
-@section('title', 'Paperlane — Ruang Menulis Digital')
+@section('title', 'Paperlane')
+
+@section('meta')
+    @include('partials.seo', [
+        'title' => 'Paperlane — Ruang Menulis Digital',
+        'description' => 'Tempat sederhana untuk menulis dan membaca. Tanpa gangguan, tanpa iklan, hanya kata-kata.',
+        'type' => 'website',
+    ])
+@endsection
 
 @section('content')
     <section class="w-full px-6 lg:px-12 pt-16 pb-12">

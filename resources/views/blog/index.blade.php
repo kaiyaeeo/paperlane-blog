@@ -2,6 +2,18 @@
 
 @section('title', isset($category) ? $category->name . ' — Paperlane' : (isset($tag) ? '#' . $tag->name . ' — Paperlane' : 'Blog — Paperlane'))
 
+@section('meta')
+    @include('partials.seo', [
+        'title' => isset($category) 
+            ? $category->name . ' — Paperlane' 
+            : (isset($tag) ? '#' . $tag->name . ' — Paperlane' : 'Blog — Paperlane'),
+        'description' => isset($category) 
+            ? 'Tulisan dengan kategori ' . $category->name . ' di Paperlane.' 
+            : (isset($tag) ? 'Tulisan dengan tag #' . $tag->name . ' di Paperlane.' : 'Semua tulisan yang diterbitkan di Paperlane.'),
+        'type' => 'website',
+    ])
+@endsection
+
 @section('content')
     <div class="w-full px-6 lg:px-12 py-12">
         <!-- Header -->

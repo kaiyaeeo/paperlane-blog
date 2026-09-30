@@ -2,6 +2,15 @@
 
 @section('title', $user->name . ' — Paperlane')
 
+@section('meta')
+    @include('partials.seo', [
+        'title' => $user->name . ' — Paperlane',
+        'description' => $user->bio ?? 'Profil ' . $user->name . ' di Paperlane.',
+        'image' => $user->avatar_url,
+        'type' => 'profile',
+    ])
+@endsection
+
 @section('content')
     <div class="w-full px-6 lg:px-12 py-12">
         <!-- Header Profil -->

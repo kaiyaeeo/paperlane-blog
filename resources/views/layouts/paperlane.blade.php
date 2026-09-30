@@ -7,6 +7,12 @@
 
     <title>@yield('title', 'Paperlane')</title>
 
+    @hasSection('meta')
+        @yield('meta')
+    @else
+        <meta name="description" content="Ruang menulis digital Paperlane.">
+    @endif
+
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700|instrument-serif:400,400i&display=swap" rel="stylesheet" />
 
