@@ -213,16 +213,53 @@
 
         @if($relatedPosts->count() > 0)
             <section class="max-w-3xl mt-12 pt-10 border-t border-ink/10">
-                <h2 class="font-serif text-xl text-ink mb-6">Tulisan Terkait</h2>
+                <div class="flex items-baseline justify-between mb-6">
+                    <h2 class="font-serif text-xl text-ink">Tulisan Terkait</h2>
+                    <span class="text-xs text-ink/40 uppercase tracking-widest">Pilihan untukmu</span>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     @foreach($relatedPosts as $related)
+                        @php
+                            // Hitung tag yang sama untuk indikator
+                            $currentTagIds = $post->tags->pluck('id')->all();
+                            $sharedTags = $related->tags->whereIn('id', $currentTagIds);
+                        @endphp
                         <a href="{{ route('blog.show', $related) }}" class="block group">
-                            <h3 class="font-serif text-base text-ink group-hover:text-ink/70 transition mb-1 leading-snug">
+                            @if($related->category)
+                                <span class="text-xs text-ink/50 uppercase tracking-widest">
+                                    {{ $related->category->name }}
+                                </span>
+                            @endif
+                            <h3 class="font-serif text-lg text-ink group-hover:text-ink/70 transition mt-1 mb-2 leading-snug">
                                 {{ $related->title }}
                             </h3>
-                            <p class="text-xs text-ink/50">
-                                {{ $related->created_at->format('d M Y') }}
-                            </p>
+
+                            {{-- Indikator kenapa post ini terkait --}}
+                            @if($sharedTags->count() > 0)
+                                <div class="flex flex-wrap gap-1 mb-2">
+                                    @foreach($sharedTags->take(2) as $t)
+                                        <span class="text-[10px] px-2 py-0.5 rounded-full bg-accent/60 text-ink">
+                                            #{{ $t->name }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            @else
+                                <p class="text-xs text-ink/50 mb-2">
+                                    Kategori sama
+                                </p>
+                            @endif
+
+                            <div class="flex items-center gap-3 text-xs text-ink/40">
+                                <span>{{ $related->created_at->format('d M Y') }}</span>
+                                <span>&middot;</span>
+                                <span class="flex items-center gap-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                    </svg>
+                                    {{ $related->likes->count() }}
+                                </span>
+                            </div>
                         </a>
                     @endforeach
                 </div>
